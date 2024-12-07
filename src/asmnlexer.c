@@ -84,9 +84,9 @@ char** SplitLine(char* buffer){
         printf("HATA: Satir Dogru Bir Sekilde Bolunemedi.\n");
         return NULL;
     }
-    printf("inst değeri => %s\n", inst);
+    //printf("inst değeri => %s\n", inst);
     char* value = strtok(NULL, "\n");
-    printf("value değeri => %s\n", value);
+    //printf("value değeri => %s\n", value);
     /*
         PUSH 27
         stringini girersek bunu önce boşluğa göre ayırır ve PUSH inst değişkenine atanır.
@@ -124,53 +124,54 @@ INST_SET getInst(int theIndex){
     switch (theIndex)
     {
         case 0:
-            return INST_NOP; break;
+            printf("INST_NOP\n"); return INST_NOP;  
+            break;
         case 1:
-            return INST_PUSH; break;
+            printf("INST_PUSH\n"); return INST_PUSH; break;
         case 2:
-            return INST_POP; break;
+            printf("INST_POP\n"); return INST_POP; break;
         case 3:
-            return INST_DUP; break;
+            printf("INST_DUP\n"); return INST_DUP; break;
         case 4:
-            return INST_INDUP; break;
+            printf("INST_INDUP\n"); return INST_INDUP; break;
         case 5: 
-            return INST_SWAP; break;
+            printf("INST_SWAP\n"); return INST_SWAP; break;
         case 6:
-            return INST_INSWAP; break;
+            printf("INST_INSWAP\n"); return INST_INSWAP; break;
         case 7:
-            return INST_ADD; break;
+            printf("INST_ADD\n");return INST_ADD; break;
         case 8:
-            return INST_SUB; break;
+            printf("INST_SUB\n"); return INST_SUB; break;
         case 9:
-            return INST_MUL; break;
+            printf("INST_MUL\n"); return INST_MUL;  break;
         case 10: 
-            return INST_MOD; break;
+            printf("INST_MOD\n"); return INST_MOD; break;
         case 11:
-            return INST_DIV; break;
+            printf("INST_DIV\n"); return INST_DIV; break;
         case 12:
-            return INST_CMPE; break;
+            printf("INST_CMPE\n"); return INST_CMPE; break;
         case 13:
-            return INST_CMPNE; break;
+            printf("INST_CMPNE\n"); return INST_CMPNE; break;
         case 14:
-            return INST_CMPG; break;
+            printf("INST_CMPG\n"); return INST_CMPG; break;
         case 15:
-            return INST_CMPL; break;
+            printf("INST_CMPL\n"); return INST_CMPL; break;
         case 16:
-            return INST_CMPGE; break;
+            printf("INST_CMPGE\n"); return INST_CMPGE; break;
         case 17:
-            return INST_CMPLE; break;
+            printf("INST_CMPLE\n"); return INST_CMPLE; break;
         case 18:
-            return INST_JMP; break;
+            printf("INST_JMP\n"); return INST_JMP; break;
         case 19:
-            return INST_ZJMP; break;
+            printf("INST_ZJMP\n"); return INST_ZJMP; break;
         case 20:
-            return INST_NZJMP; break;
+            printf("INST_NZJMP\n"); return INST_NZJMP; break;
         case 21:
-            return INST_PRINT; break;
+            printf("INST_PRINT\n"); return INST_PRINT; break;
         case 22:
-            return INST_HALT; break;
+            printf("INST_HALT\n"); return INST_HALT; break;
         case 23:
-            return INST_FAIL; break;
+            printf("INST_FAIL\n"); return INST_FAIL; break;
         default:
             printf("HATA: Boyle Bir Inst Bulunmamaktadir.\n");
             return INST_FATAL_ERROR;
@@ -184,7 +185,7 @@ INST_SET CheckSuitibility(char* buffer, int length){
     char tempChar = 0;
     int theIndex = 0;
 
-    printf("Karsilastirmak icin inst => %s\n", buffer);
+    //printf("Karsilastirmak icin inst => %s\n", buffer);
 
     for (int i = 0; i < SET_SIZE; i++)
     {
@@ -222,12 +223,12 @@ BLOCK* InitializeBlock(char* buffer, int length){
     }
     char* instText  = splittedLine[0];
     INST_SET inst = CheckSuitibility(instText, sizeOfStr(instText));
-    if(inst == INST_PUSH) printf("PUSH TALEBİ YAPILDI.\n");
+    //if(inst == INST_PUSH) printf("PUSH TALEBİ YAPILDI.\n");
     block->instruction = inst;
     block->value = convertStrToInt(splittedLine[1]);
 
-    printf("block INST => %d\n", block->instruction);
-    printf("block value => %d\n", block->value);
+    //printf("block INST => %d\n", block->instruction);
+    //printf("block value => %d\n", block->value);
 
     return block;
 }
@@ -276,7 +277,7 @@ int lexer(){
             i = 0;
             char* buffer = (char*)malloc(bufferSize);
             buffer = blockBuffer;
-            printf("Blokta yapilacaklar => %s\n", buffer);
+            //printf("Blokta yapilacaklar => %s\n", buffer);
             block = InitializeBlock(buffer, bufferSize);
             memset(blockBuffer, 0, sizeof(char) * 32);
         }
