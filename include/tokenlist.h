@@ -1,16 +1,7 @@
 #ifndef TOKEN_LIST
 #define TOKEN_LIST
-#include "asmnlexer.h"
-typedef struct Node{
-    size_t index;//list'teki indeksi
-    TOKEN data;
-    struct Node* next;
-} Node;
 
-typedef struct TOKENLIST{
-    Node* head;
-    size_t size;
-} TOKENLIST;
+#include "maindatastructures.h"
 
 char compareTokens(TOKEN* token1, const TOKEN* token2);//İki Token'ı birbiriyle karşılaştırarak birbirleridnen farklı olup olmadıkları bildiren fonksiyon
 TOKENLIST* createTokenList();//Bir TOKENLIST oluşturan fonksiyon

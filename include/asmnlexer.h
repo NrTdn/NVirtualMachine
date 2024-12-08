@@ -2,21 +2,7 @@
 #define ASMNLEXER_H
 
 #include "nvm.h"
-
-#define TRUE 1
-#define FALSE 0
-
-typedef struct {
-    INST_SET type;
-    char* text;
-    int line;
-    int character;  
-} TOKEN;
-
-typedef struct {
-    INST_SET instruction;
-    long value;
-} BLOCK;
+#include "tokenlist.h"
 
 extern char* SETS[];
 
@@ -31,5 +17,5 @@ TOKEN* InitializeToken(BLOCK* block);//Bir Token oluşturacak olan fonksiyon
 BLOCK* InitializeBlock(char* buffer, int length);//Bir Block oluşturacak olan fonksiyon.
 int generateKeyWord(char* current, int currentIndex, int line, int character);
 Inst generateProgram(TOKEN* tokens);
-int lexer();
+int lexer(LEXER* lex);
 #endif 

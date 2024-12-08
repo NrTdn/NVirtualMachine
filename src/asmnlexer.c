@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
 #include <ctype.h> //isalpha func
 #include "../include/asmnlexer.h"
 
@@ -174,12 +170,12 @@ INST_SET getInst(int theIndex){
             printf("INST_FAIL\n"); return INST_FAIL; break;
         default:
             printf("HATA: Boyle Bir Inst Bulunmamaktadir.\n");
-            return INST_FATAL_ERROR;
+            return INST_NULL;
             break;
     }
 }
 
-INST_SET CheckSuitibility(char* buffer, int length){
+INST_SET CheckSuitibility(char* buffer, int length){ //Eğer uygunsa instruction'ı döndürür, değilse FATAL ERROR döndürür.
     char controller = 0;
     char* tempBuffer = (char*)malloc(sizeof(char) * 8);
     char tempChar = 0;
@@ -204,14 +200,16 @@ INST_SET CheckSuitibility(char* buffer, int length){
             return INST_FAIL;
             break;
         default:
-            return INST_FAIL;
+            return INST_NULL;
             break;
     }
 }
 
 TOKEN* InitializeToken(BLOCK* block){
-
-    return NULL;
+    TOKEN* token = (TOKEN*)malloc(sizeof(TOKEN));
+    token->type = block->instruction;
+    token->value = block->value;
+    return token;
 }
 
 BLOCK* InitializeBlock(char* buffer, int length){
@@ -223,6 +221,10 @@ BLOCK* InitializeBlock(char* buffer, int length){
     }
     char* instText  = splittedLine[0];
     INST_SET inst = CheckSuitibility(instText, sizeOfStr(instText));
+    if(inst == INST_NULL){
+        fprintf(stderr, "HATA: Block olusturulamadi.\n");
+        return NULL;
+    }
     //if(inst == INST_PUSH) printf("PUSH TALEBİ YAPILDI.\n");
     block->instruction = inst;
     block->value = convertStrToInt(splittedLine[1]);
@@ -251,19 +253,24 @@ Inst generateProgram(TOKEN* tokens){
 
 }
 
-int lexer(){
+int lexer(LEXER* lex){
+    TOKENLIST* tokenList = createTokenList();
+
     int length;
-    char* current = open_file("C:\\Users\\HelyakX\\Desktop\\Visual Studio Code\\C\\NVM\\test.asmn", &length);
+    char* current = open_file(lex->filePath, &length);
 
     int currentIndex = 0;
 
     int line = 0;
-    int character = 0;
     char* tempBuffer = current;
     char* blockBuffer = (char*)malloc(sizeof(char) * 32);
+    if(blockBuffer == NULL){
+        fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => blockBuffer\n");
+        exit(1);
+    }
     int i = 0;
 
-    BLOCK* block = (BLOCK*)malloc(sizeof(BLOCK));
+    int blockCount = 0;
 
     while (currentIndex <= length)
     {
@@ -276,13 +283,36 @@ int lexer(){
             int bufferSize = i;
             i = 0;
             char* buffer = (char*)malloc(bufferSize);
+            if(buffer == NULL){
+                fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => buffer\n");
+                exit(1);
+            }
             buffer = blockBuffer;
-            //printf("Blokta yapilacaklar => %s\n", buffer);
+
+            BLOCK* block = (BLOCK*)malloc(sizeof(BLOCK));
+            if(block == NULL){
+                fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => block\n");
+                exit(1);
+            }
+
             block = InitializeBlock(buffer, bufferSize);
+            if(block == NULL) {
+                fprintf(stderr, "HATA: Block olusturulamadi.\n");
+                exit(1);
+            }
+            blockCount++;
+            TOKEN* token =  InitializeToken(block);
             memset(blockBuffer, 0, sizeof(char) * 32);
+            memset(buffer, 0, bufferSize);
+            insertTail(tokenList, token);
+            free(block);
         }
         currentIndex++;
     }
-    
+
+    printList(tokenList);
+
+    freeTokenList(tokenList);
+
     return 0;
 }

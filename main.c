@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./include/asmnlexer.h"
+#include "./include/nvm.h"
 
 extern char* SETS[]; 
 
@@ -61,7 +62,7 @@ void print_stack(Machine* machine){
     for(int i = machine->stack_size - 1; i >= 0; i--) {
         printf("# %d\n", machine->stack[i]);
     }
-    printf("******\n");
+    printf("*************\n");
 }
 
 void write_program_to_file(Machine* machine, char* file_path) {
@@ -275,7 +276,13 @@ void run_program(Machine* machine){
 }
 
 int main(){ 
-    lexer();
+    LEXER* lex= (LEXER*)malloc(sizeof(LEXER));
+    if(lex == NULL){
+        fprintf(stderr, "HATA: Bellek ayirmada problem yasandi.\n");
+        exit(1);
+    }
+    lex->filePath = "C:\\Users\\HelyakX\\Desktop\\Visual Studio Code\\C\\NVM\\test.asmn";
+    lexer(lex);
     Machine* loaded_machine = malloc(sizeof(Machine));
 
     loaded_machine->Instructions = program; 

@@ -111,12 +111,13 @@ Node* getNodeAt(TOKENLIST* list, size_t index){
 
 void printList(TOKENLIST* list){
     Node* current = list->head;
+    printf("LIST:\n");
     while (current != NULL)
     {
-        printf("%s\n", current->data.text);
+        printf("VALUE => %d\n", current->data.value);
         current = current->next;
     }
-    printf("NULL\n");
+    printf("NULL\n*************\n");
 }
 
 TOKEN* getListAsArray(TOKENLIST* list){
