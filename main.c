@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./include/asmnlexer.h"
-#include "./include/nvm.h"
 
 extern char* SETS[]; 
 
