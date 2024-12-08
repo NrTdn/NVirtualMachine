@@ -33,7 +33,7 @@ typedef enum { // Instruction Set => Talimat Seti
     INST_PRINT,
     INST_HALT,
     INST_FAIL,
-    INST_FATAL_ERROR//Dönüş Değeri INST_SET olan fonksiyonlarda NULL döndürerek bir hata meydana geldiğini bildirdiğim fonksiyonlarda kullanıcam. 
+    INST_NULL//Dönüş Değeri INST_SET olan fonksiyonlarda NULL döndürerek bir hata meydana geldiğini bildirdiğim fonksiyonlarda kullanıcam. 
 } INST_SET;
 
 typedef struct {
