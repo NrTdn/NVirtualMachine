@@ -96,7 +96,7 @@ void deleteNode(TOKENLIST* list, const TOKEN* data){
     }
 }
 
-Node* getNodeAt(TOKENLIST* list, size_t index){
+TOKEN* getTokenAt(TOKENLIST* list, size_t index){
     if(index >= list->size){
         printf("HATA: Stack OverFlow\n");
         return NULL;
@@ -106,7 +106,7 @@ Node* getNodeAt(TOKENLIST* list, size_t index){
     while (current != NULL && current->index != index){
         current = current->next;
     }
-    return current;
+    return &current->data;
 }
 
 void printList(TOKENLIST* list){

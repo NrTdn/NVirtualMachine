@@ -3,6 +3,7 @@
         "stdlib.h": "c",
         "stdio.h": "c",
         "nvm.h": "c",
-        "maindatastructures.h": "c"
+        "maindatastructures.h": "c",
+        "tokenlist.h": "c"
     }
 }

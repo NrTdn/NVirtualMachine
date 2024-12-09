@@ -72,7 +72,6 @@ void write_program_to_file(Machine* machine, char* file_path) {
     }
 
     fwrite(machine->Instructions, sizeof(machine->Instructions[0]), PROGRAM_SIZE, file);
-
     fclose(file);
 }
 

@@ -15,7 +15,6 @@ INST_SET getInst(int theIndex);//Girilen indeksteki instruction'ı gösterecek o
 INST_SET CheckSuitibility(char* buffer, int length);//Bir satırı söz dizimi bakımından uygunluğunu bildirecek olan fonksiyon
 TOKEN* InitializeToken(BLOCK* block);//Bir Token oluşturacak olan fonksiyon
 BLOCK* InitializeBlock(char* buffer, int length);//Bir Block oluşturacak olan fonksiyon.
-int generateKeyWord(char* current, int currentIndex, int line, int character);
-Inst generateProgram(TOKEN* tokens);
+Inst* generateProgram(TOKENLIST* tokenList);//Machine struct'ına yüklenecek olan instructions'ları üretir.
 int lexer(LEXER* lex);
 #endif 
