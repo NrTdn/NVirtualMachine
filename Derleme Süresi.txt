@@ -1,0 +1,5 @@
+$time = Measure-Command {
+    //Buraya istediğiniz komutu çalıştırabilirsiniz. Bu Powershell için geçerlidir.
+    gcc -I ./include ./src/*.c main.c -o main.exe
+}
+Write-Host "Derleme süresi: $($time.TotalSeconds) saniye"

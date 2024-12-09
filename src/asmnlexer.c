@@ -52,6 +52,7 @@ char* open_file(char* file_path, int* length){
     fread(current, 1, *length, file);
     
     fclose(file);
+    free(file);
     return current;
 }
 
@@ -105,8 +106,6 @@ char** SplitLine(char* buffer){
 
     resultArray[0] = inst;
     resultArray[1] = value;
-
-
     return resultArray;
 }
 
@@ -173,6 +172,7 @@ INST_SET getInst(int theIndex){
             return INST_NULL;
             break;
     }
+    return INST_NULL;
 }
 
 INST_SET CheckSuitibility(char* buffer, int length){ //Eğer uygunsa instruction'ı döndürür, değilse FATAL ERROR döndürür.
@@ -203,6 +203,9 @@ INST_SET CheckSuitibility(char* buffer, int length){ //Eğer uygunsa instruction
             return INST_NULL;
             break;
     }
+
+    free(tempBuffer);
+    return INST_NULL;
 }
 
 TOKEN* InitializeToken(BLOCK* block){
@@ -225,28 +228,10 @@ BLOCK* InitializeBlock(char* buffer, int length){
         fprintf(stderr, "HATA: Block olusturulamadi.\n");
         return NULL;
     }
-    //if(inst == INST_PUSH) printf("PUSH TALEBİ YAPILDI.\n");
     block->instruction = inst;
     block->value = convertStrToInt(splittedLine[1]);
 
-    //printf("block INST => %d\n", block->instruction);
-    //printf("block value => %d\n", block->value);
-
     return block;
-}
-
-int generateKeyWord(char* current, int currentIndex, int line, int character){
-    char* keywordName = {0};
-    int keywordLength = 0;
-    while (isalpha(current[currentIndex]))
-    {
-        keywordName[keywordLength] = current[currentIndex];
-        currentIndex++;
-        keywordLength++;
-    }
-    
-    InitializeToken;
-    int current_Index;
 }
 
 Inst generateProgram(TOKEN* tokens){
@@ -271,6 +256,11 @@ int lexer(LEXER* lex){
     int i = 0;
 
     int blockCount = 0;
+    BLOCK* block = (BLOCK*)malloc(sizeof(BLOCK));
+            if(block == NULL){
+                fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => block\n");
+                exit(1);
+            }
 
     while (currentIndex <= length)
     {
@@ -289,12 +279,6 @@ int lexer(LEXER* lex){
             }
             buffer = blockBuffer;
 
-            BLOCK* block = (BLOCK*)malloc(sizeof(BLOCK));
-            if(block == NULL){
-                fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => block\n");
-                exit(1);
-            }
-
             block = InitializeBlock(buffer, bufferSize);
             if(block == NULL) {
                 fprintf(stderr, "HATA: Block olusturulamadi.\n");
@@ -304,11 +288,15 @@ int lexer(LEXER* lex){
             TOKEN* token =  InitializeToken(block);
             memset(blockBuffer, 0, sizeof(char) * 32);
             memset(buffer, 0, bufferSize);
+            memset(block, 0, sizeof(BLOCK));
             insertTail(tokenList, token);
-            free(block);
         }
         currentIndex++;
     }
+    free(current);
+    free(tempBuffer);
+    free(blockBuffer);
+    free(block);
 
     printList(tokenList);
 
