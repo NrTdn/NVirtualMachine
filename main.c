@@ -280,15 +280,19 @@ int main(){
         exit(1);
     }
     lex->filePath = "C:\\Users\\HelyakX\\Desktop\\Visual Studio Code\\C\\NVM\\test.asmn";
-    lexer(lex);
-    Machine* loaded_machine = malloc(sizeof(Machine));
-
-    loaded_machine->Instructions = program; 
-    write_program_to_file(loaded_machine, "test.nvm");
-    loaded_machine  = read_program_file(loaded_machine, "test.nvm");
-
-    run_program(loaded_machine);
-    print_stack(loaded_machine);
-    
+    Machine* loadedMachine =  lexer(lex);
+    printf("Makine olusturuldu.\n");
+    run_program(loadedMachine);
+    print_stack(loadedMachine);
+    //Machine* loaded_machine = malloc(sizeof(Machine));
+    //
+    //loaded_machine->Instructions = program; 
+    //write_program_to_file(loaded_machine, "test.nvm");
+    //loaded_machine  = read_program_file(loaded_machine, "test.nvm");
+    //
+    //run_program(loaded_machine);
+    //print_stack(loaded_machine);
+    free(loadedMachine);
+    free(lex);
     return 0;
 }

@@ -234,9 +234,11 @@ BLOCK* InitializeBlock(char* buffer, int length){
     return block;
 }
 
-Inst* generateProgram(TOKENLIST* tokenList){
+Machine* generateMachine(TOKENLIST* tokenList){
     int tokenSize = tokenList->size;
-    Inst* program = (Inst*)malloc(tokenSize);
+    Inst* program = (Inst*)malloc(INST_SIZE * tokenSize);
+    Machine* machine = (Machine*)malloc(sizeof(Machine));
+    int programSize = 0;
 
     for(int i = 0; i < tokenSize; i++){
         Inst instruction;
@@ -244,13 +246,18 @@ Inst* generateProgram(TOKENLIST* tokenList){
         instruction.type = token.type;
         instruction.value = token.value;
         printf("INSTRUCTION TYPE => %d :: VALUE => %d\n", instruction.type, instruction.value);
+        
         program[i] = instruction;
+        programSize++;
     }
 
-    return program;
+    machine->Instructions = program;
+    machine->program_size = programSize;
+
+    return machine;
 }
 
-int lexer(LEXER* lex){
+Machine* lexer(LEXER* lex){
     TOKENLIST* tokenList = createTokenList();
 
     int length;
@@ -305,17 +312,20 @@ int lexer(LEXER* lex){
         }
         currentIndex++;
     }
-    free(current);
-    free(tempBuffer);
-    free(blockBuffer);
-    free(block);
+
+    Machine* machine =  generateMachine(tokenList);
 
     printList(tokenList);
 
     printf("GENERATING THE PROGRAM::::::\n");
-    generateProgram(tokenList);
     printf("::::::\n");
+    
+    free(current);
+    free(blockBuffer);
+    free(tempBuffer);
+    free(block);
+
     freeTokenList(tokenList);
 
-    return 0;
+    return machine;
 }
