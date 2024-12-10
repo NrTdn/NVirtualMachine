@@ -75,7 +75,13 @@ void removeNewLineChar(char* str){
 char** SplitLine(char* buffer){
     removeNewLineChar(buffer);
     char** resultArray = (char**)malloc(sizeof(char*) * 2);
+    if(resultArray == NULL){
+        fprintf(stderr, "HATA: Bellek ayirilirken problem yasandi. => resultArray\n");
+        exit(1);
+    }
+
     char* tempBuffer = buffer;
+    printf("BUFFER KARDAS => %s\n", tempBuffer);
     char* inst = strtok(buffer, " ");
     if(inst == NULL){
         printf("HATA: Satir Dogru Bir Sekilde Bolunemedi.\n");
@@ -83,6 +89,10 @@ char** SplitLine(char* buffer){
     }
     //printf("inst değeri => %s\n", inst);
     char* value = strtok(NULL, "\n");
+    if(value == NULL){
+        printf("HATA: Satir Dogru Bir Sekilde Bolunemedi.\n");
+        return NULL;
+    }
     //printf("value değeri => %s\n", value);
     /*
         PUSH 27
@@ -178,10 +188,12 @@ INST_SET getInst(int theIndex){
 INST_SET CheckSuitibility(char* buffer, int length){ //Eğer uygunsa instruction'ı döndürür, değilse FATAL ERROR döndürür.
     char controller = 0;
     char* tempBuffer = (char*)malloc(sizeof(char) * 8);
+    if(tempBuffer == NULL){
+        fprintf(stderr, "HATA: Bellek ayirilirken problem yasandi. => tempBuffer\n");
+        exit(1);
+    }
     char tempChar = 0;
     int theIndex = 0;
-
-    //printf("Karsilastirmak icin inst => %s\n", buffer);
 
     for (int i = 0; i < SET_SIZE; i++)
     {
@@ -210,18 +222,24 @@ INST_SET CheckSuitibility(char* buffer, int length){ //Eğer uygunsa instruction
 
 TOKEN* InitializeToken(BLOCK* block){
     TOKEN* token = (TOKEN*)malloc(sizeof(TOKEN));
+    if(token == NULL){
+        fprintf(stderr, "HATA: Bellek ayirilirken problem yasandi. => token\n");
+        exit(1);
+    }
     token->type = block->instruction;
     token->value = block->value;
     return token;
 }
 
 BLOCK* InitializeBlock(char* buffer, int length){
-    char** splittedLine =  SplitLine(buffer);
+    char** splittedLine =  SplitLine(buffer);//temizlenmesi gerek
+
     BLOCK* block = (BLOCK*)malloc(sizeof(BLOCK));
     if(splittedLine == NULL){
         printf("HATA: Blok Olusturulamadi. => Söz Dizimi Hatasi\n");
         return block;
     }
+
     char* instText  = splittedLine[0];
     INST_SET inst = CheckSuitibility(instText, sizeOfStr(instText));
     if(inst == INST_NULL){
@@ -231,13 +249,23 @@ BLOCK* InitializeBlock(char* buffer, int length){
     block->instruction = inst;
     block->value = convertStrToInt(splittedLine[1]);
 
+    free(splittedLine);
     return block;
 }
 
 Machine* generateMachine(TOKENLIST* tokenList){
     int tokenSize = tokenList->size;
     Inst* program = (Inst*)malloc(INST_SIZE * tokenSize);
+    if(program == NULL){
+        fprintf(stderr, "HATA: Bellek ayirilirken problem yasandi. => program\n");
+        exit(1);
+    }
     Machine* machine = (Machine*)malloc(sizeof(Machine));
+    if(machine == NULL){
+        fprintf(stderr, "HATA: Bellek ayirilirken problem yasandi. => machine\n");
+        exit(1);
+    }
+    
     int programSize = 0;
 
     for(int i = 0; i < tokenSize; i++){
@@ -272,14 +300,15 @@ Machine* lexer(LEXER* lex){
         fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => blockBuffer\n");
         exit(1);
     }
+    memset(blockBuffer, 0, sizeof(char) * 32);
     int i = 0;
 
     int blockCount = 0;
     BLOCK* block = (BLOCK*)malloc(sizeof(BLOCK));
-            if(block == NULL){
-                fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => block\n");
-                exit(1);
-            }
+    if(block == NULL){
+        fprintf(stderr, "HATA: Bellek ayirmada problem yasandi. => block\n");
+        exit(1);
+    }
 
     while (currentIndex <= length)
     {

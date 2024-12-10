@@ -3,7 +3,6 @@
 
 #include "maindatastructures.h"
 
-
 #define DEF_INST_NOP {.type = INST_NOP}
 #define DEF_INST_PUSH(x) {.type = INST_PUSH, .value = x}
 #define DEF_INST_POP {.type = INST_POP}
@@ -33,8 +32,8 @@ int pop(Machine* machine);
 void index_swap(Machine* machine, int index);
 void index_dup(Machine* machine, int index);
 void print_stack(Machine* machine);
-void write_program_to_file(Machine* machine, char* file_path);
-Machine* read_program_file(Machine* machine, char* file_path);
+extern void write_program_to_file(Machine* machine, char* file_path);
+extern Machine* read_program_file(Machine* machine, char* file_path);
 void run_program(Machine* machine);
 int main();
 

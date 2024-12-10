@@ -55,9 +55,7 @@ typedef struct{
 
 typedef struct {
     INST_SET type;
-    char* text;
     int line;
-    int character;
     int value;
 } TOKEN;
 

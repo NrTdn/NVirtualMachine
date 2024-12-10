@@ -7,9 +7,9 @@ char compareTokens(TOKEN* token1, const TOKEN* token2){
     //Sadece Return İle yaparsam sonucun hesaplanma süresi =  0.150000 seconds
     //IF ile yaparsam sonucun hesaplanma süresi =  0.180000 seconds
     return  (token1->type == token2->type) && 
-            (strcmp(token1->text, token2->text) == 0) &&
-            (token1->line == token2->line) &&
-            (token1->character == token2->character); 
+            //(strcmp(token1->text, token2->text) == 0) &&
+            (token1->line == token2->line);
+            //(token1->character == token2->character); 
 }
 
 TOKENLIST* createTokenList(){
