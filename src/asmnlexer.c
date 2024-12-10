@@ -81,7 +81,6 @@ char** SplitLine(char* buffer){
     }
 
     char* tempBuffer = buffer;
-    printf("BUFFER KARDAS => %s\n", tempBuffer);
     char* inst = strtok(buffer, " ");
     if(inst == NULL){
         printf("HATA: Satir Dogru Bir Sekilde Bolunemedi.\n");
