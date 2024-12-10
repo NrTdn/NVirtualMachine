@@ -218,7 +218,7 @@ void run_program(Machine* machine){
 
             case INST_FAIL:
                 fprintf(stderr, "Program Failed\n");
-                exit(0);
+                exit(1);
             break; 
 
             default:
