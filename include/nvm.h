@@ -27,14 +27,14 @@
 #define DEF_INST_PRINT {.type = INST_PRINT}
 #define DEF_INST_HALT {.type = INST_HALT}
 
-void push(Machine* machine, int value);
-int pop(Machine* machine);
-void index_swap(Machine* machine, int index);
-void index_dup(Machine* machine, int index);
-void print_stack(Machine* machine);
-extern void write_program_to_file(Machine* machine, char* file_path);
-extern Machine* read_program_file(Machine* machine, char* file_path);
-void run_program(Machine* machine);
+void push(Machine*, int);
+int pop(Machine*);
+void index_swap(Machine*, int);
+void index_dup(Machine*, int);
+void print_stack(Machine*);
+extern void write_program_to_file(Machine*, char*);
+extern Machine* read_program_file(Machine*, char*);
+void run_program(Machine*);
 int main();
 
 #endif
