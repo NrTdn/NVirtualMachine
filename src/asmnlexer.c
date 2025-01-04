@@ -28,8 +28,6 @@ char* SETS[] = { //23 eleman
     "FAIL"
 };
 
-TOKEN* Tokens = {0};
-
 const int SET_SIZE = 24;
 
 char* open_file(char* file_path, int* length){

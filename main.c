@@ -58,14 +58,6 @@ int main(){
     printf("Makine olusturuldu.\n");
     run_program(loadedMachine);
     print_stack(loadedMachine);
-    //Machine* loaded_machine = malloc(sizeof(Machine));
-    //
-    //loaded_machine->Instructions = program; 
-    //write_program_to_file(loaded_machine, "test.nvm");
-    //loaded_machine  = read_program_file(loaded_machine, "test.nvm");
-    //
-    //run_program(loaded_machine);
-    //print_stack(loaded_machine);
 
     free(loadedMachine->Instructions);
     free(loadedMachine);
