@@ -33,6 +33,8 @@ Machine* read_program_file_bytes(Machine* machine, char* file_path){
         exit(1);
     }
 
+    printf("BURADAYIZ\n");
+
     Inst* instructions = malloc(sizeof(Inst) * MAX_STACK_SIZE);
 
     fseek(file, 0, SEEK_END);//dosyanın akışı sonda kaldı.
@@ -58,6 +60,9 @@ int main(){
     printf("Makine olusturuldu.\n");
     run_program(loadedMachine);
     print_stack(loadedMachine);
+
+    write_program_to_file_bytes(loadedMachine, "test.nvm");
+    read_program_file_bytes(loadedMachine, "test.nvm");
 
     free(loadedMachine->Instructions);
     free(loadedMachine);
